@@ -12,6 +12,11 @@ const songs = [
     { title: "I'm Not in Love", artist: "10cc", genre: "Pop" },
     { title: "Fooled Around and Fell in Love", artist: "Elvin Bishop", genre: "Rock" },
     // Feel free to add even more songs
+    { title: "Mr. Blue Sky", artist: "Electric Light Orchestra", genre: "R&B" },
+    { title: "The Chain", artist: "Fleetwood Mac", genre: "Rock" },
+    { title: "Come and Get Your Love (Rerecorded)", artist: "Redbone", genre: "R&B" },
+    { title: "Spirit in the Sky", artist: "Norman Greenbaum", genre: "Rock" },
+    { title: "Bring It On Home to Me", artist: "Sam Cooke", genre: "Pop" }
 ];
 
 
@@ -20,15 +25,35 @@ const guardians = {
     "Star-Lord": "Rock",
     "Gamora": "Pop",
     // Add preferences for Drax, Rocket, and Groot
+    "Drax" : "R&B",
+    "Rocket" : "Rock",
+    "Groot" : "R&B",
+    //Student Note: What about Mantis? :(
+    "Mantis" : "Pop"
 };
 
 // Function to generate playlist based on preferred genre
 function generatePlaylist(guardians, songs) {
     // Use the map() function to create playlists for each Guardian
-    // Your code here
+    return Object.entries(guardians).map(([person, genre]) => {
+        //Search through the songs array for songs that mach genre preference
+        const playlist = songs.filter((song) => (genre) === song.genre);
+        return { person, playlist }      
+        }
+    );
 }
 
 // Call generatePlaylist and display the playlists for each Guardian
-generatePlaylist(guardians, songs);
+const playlists = generatePlaylist(guardians, songs);
+
+document.querySelector('#playlists').innerHTML = playlists.map(
+  (entry) => //Make it pretty
+  `
+    <p><strong>${entry.person}'s Playlist:</strong></p>
+    <ol style="list-style-type: none">
+      ${entry.playlist.map(song => `<li>${song.title} (${song.genre})</li>`).join('')}
+    </ol>
+  `
+).join('');
 
 
